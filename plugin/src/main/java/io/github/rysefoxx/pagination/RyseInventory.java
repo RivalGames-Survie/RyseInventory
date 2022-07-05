@@ -403,6 +403,10 @@ public class RyseInventory {
         return initInventory(player, 1, keys, values);
     }
 
+    public @Nullable Inventory open(@NotNull Player player, @NotNull Map<String, Object> data) throws IllegalArgumentException {
+        return initInventory(player, 1, data.keySet().toArray(new String[0]), data.values().toArray(new Object[0]));
+    }
+
     private @Nullable Inventory initInventory(@NotNull Player player, @Nonnegative int page, @Nullable String[] keys, @Nullable Object[] values) {
         RyseInventoryOpenEvent event = new RyseInventoryOpenEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
@@ -1030,7 +1034,8 @@ public class RyseInventory {
 
 
         if (keys != null && values != null) {
-            Arrays.stream(keys).filter(Objects::nonNull).forEach(s -> Arrays.stream(values).filter(Objects::nonNull).forEach(o -> newContents.setData(s, o)));
+            for (int n = 0; n < keys.length; n++)
+                newContents.setData(keys[n], values[n]);
         }
     }
 
