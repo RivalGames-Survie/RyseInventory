@@ -347,6 +347,15 @@ public class InventoryContents {
     }
 
     /**
+     * Outputs inventory size..
+     *
+     * @return inventory size
+     */
+    public @NotNull Integer size() {
+        return this.inventory.size();
+    }
+
+    /**
      * With this method you can update the inventory title.
      *
      * @param newTitle The new title
@@ -419,6 +428,10 @@ public class InventoryContents {
         if (!this.data.containsKey(key)) return null;
 
         return (T) this.data.get(key);
+    }
+
+    public Map<String, Object> getData() {
+        return this.data;
     }
 
     /**

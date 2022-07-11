@@ -407,6 +407,20 @@ public class RyseInventory {
         return initInventory(player, 1, data.keySet().toArray(new String[0]), data.values().toArray(new Object[0]));
     }
 
+    public @Nullable Inventory open(@NotNull Player player, @NotNull Map<String, Object> data, PreviousInventory previousMenu) throws IllegalArgumentException {
+        return open(player, data, previousMenu, null);
+    }
+    public @Nullable Inventory open(@NotNull Player player, @NotNull Map<String, Object> data, PreviousInventory previousMenu, Map<String, Object> additionalData) throws IllegalArgumentException {
+        data = new HashMap<>(data);
+        if (additionalData != null)
+            data.putAll(additionalData);
+        ArrayList<PreviousInventory> previousMenus = (ArrayList<PreviousInventory>) data.getOrDefault("previousMenu", new ArrayList<>());
+        previousMenus.add(previousMenu);
+        data.put("previousMenu", previousMenus);
+
+        return initInventory(player, 1, data.keySet().toArray(new String[0]), data.values().toArray(new Object[0]));
+    }
+
     private @Nullable Inventory initInventory(@NotNull Player player, @Nonnegative int page, @Nullable String[] keys, @Nullable Object[] values) {
         RyseInventoryOpenEvent event = new RyseInventoryOpenEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
