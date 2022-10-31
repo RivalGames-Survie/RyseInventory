@@ -410,6 +410,11 @@ public class RyseInventory {
     public @Nullable Inventory open(@NotNull Player player, @NotNull Map<String, Object> data, PreviousInventory previousMenu) throws IllegalArgumentException {
         return open(player, data, previousMenu, null);
     }
+
+    public @Nullable Inventory open(@NotNull Player player, PreviousInventory previousMenu) throws IllegalArgumentException {
+        return open(player, previousMenu.previousData(), previousMenu, null);
+    }
+
     public @Nullable Inventory open(@NotNull Player player, @NotNull Map<String, Object> data, PreviousInventory previousMenu, Map<String, Object> additionalData) throws IllegalArgumentException {
         data = new HashMap<>(data);
         if (additionalData != null)
