@@ -1850,7 +1850,10 @@ public class InventoryContents {
             throw new IllegalArgumentException(Utils.replace(PlaceHolderConstants.INVALID_SLOT, "%temp%", this.inventory.size()));
 
         Optional<IntelligentItem> itemOptional = get(slot);
-        if (!itemOptional.isPresent()) return false;
+        if (itemOptional.isEmpty()) {
+            set(slot, itemStack);
+            return true;
+        }
 
         IntelligentItem item = itemOptional.get();
         IntelligentItem newItem = item.update(itemStack);
@@ -1968,6 +1971,14 @@ public class InventoryContents {
      * @throws IllegalArgumentException if slot > 53 or slot > inventory size
      */
     public boolean update(@Nonnegative int slot, @NotNull IntelligentItem intelligentItem) throws IllegalArgumentException {
+        return update(slot, intelligentItem.getItemStack());
+    }
+
+    public boolean updateOrCreate(@Nonnegative int slot, @NotNull IntelligentItem intelligentItem) throws IllegalArgumentException {
+        if (get(slot).isEmpty()) {
+            set(slot, intelligentItem);
+            return true;
+        }
         return update(slot, intelligentItem.getItemStack());
     }
 
